@@ -1,4 +1,4 @@
-const loader=document.getElementById('loader');window.addEventListener('load',()=>setTimeout(()=>loader.classList.add('hide'),450));
+const loader=document.getElementById('loader');const hideLoader=()=>setTimeout(()=>loader.classList.add('hide'),450);window.addEventListener('load',hideLoader);if(document.readyState!=='loading')hideLoader();else document.addEventListener('DOMContentLoaded',hideLoader);
 const header=document.getElementById('header');addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>25));
 const btn=document.getElementById('menuBtn'),nav=document.getElementById('nav');btn.addEventListener('click',()=>nav.classList.toggle('open'));nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
 const form=document.getElementById('bookingForm'),toast=document.getElementById('toast');form.addEventListener('submit',e=>{e.preventDefault();toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),4500);form.reset()});
