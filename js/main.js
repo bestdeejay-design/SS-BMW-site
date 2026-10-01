@@ -29,7 +29,9 @@
   }
   menuBtn.addEventListener('click', function () { setMenu(!nav.classList.contains('open')); });
   $$('a', nav).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
+  });
 
   /* Подсветка текущего раздела в меню + плавное появление блоков */
   if ('IntersectionObserver' in window) {
@@ -53,18 +55,35 @@
     });
   }
 
-  /* Галерея: просмотр фото в увеличенном виде */
+  /* Галерея: просмотр фото с листанием (кнопки, стрелки клавиатуры, свайп) */
   var lb = $('#lightbox');
   if (lb && typeof lb.showModal === 'function') {
-    var lbImg = $('img', lb);
-    $$('.gallery-grid button').forEach(function (b) {
-      b.addEventListener('click', function () {
-        lbImg.src = b.getAttribute('data-full');
-        lbImg.alt = b.getAttribute('data-alt') || '';
-        lb.showModal();
-      });
+    var lbImg = $('img', lb), lbCount = $('.lb-count', lb);
+    var shots = $$('.gallery-grid button'), cur = 0;
+    var show = function (i) {
+      cur = (i + shots.length) % shots.length;
+      lbImg.src = shots[cur].getAttribute('data-full');
+      lbImg.alt = shots[cur].getAttribute('data-alt') || '';
+      lbCount.textContent = (cur + 1) + ' / ' + shots.length;
+    };
+    shots.forEach(function (b, i) {
+      b.addEventListener('click', function () { show(i); lb.showModal(); });
     });
-    lb.addEventListener('click', function (e) { if (e.target !== lbImg) lb.close(); });
+    $('.lb-prev', lb).addEventListener('click', function () { show(cur - 1); });
+    $('.lb-next', lb).addEventListener('click', function () { show(cur + 1); });
+    $('.lb-close', lb).addEventListener('click', function () { lb.close(); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+    lb.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') show(cur - 1);
+      if (e.key === 'ArrowRight') show(cur + 1);
+    });
+    var x0 = null;
+    lb.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+    });
   }
 
   /* Форма записи */
@@ -125,10 +144,16 @@
         .catch(function () { say('Не удалось отправить. Позвоните нам: <a href="tel:+78129092626">+7 (812) 909-26-26</a>', 'err'); })
         .then(function () { btn.disabled = false; });
     } else {
-      // Режим 2 (по умолчанию): открываем Telegram с готовым текстом заявки
-      if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
-      window.open(form.getAttribute('data-telegram') + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
-      say('Открываем Telegram с готовой заявкой — нажмите «Отправить». Текст также скопирован. Если чат не открылся, позвоните: <a href="tel:+78129092626">+7 (812) 909-26-26</a>', 'ok');
+      // Режим 2 (по умолчанию): Telegram. Текст заявки копируем в буфер — ссылка t.me/+телефон
+      // не всегда подставляет текст сама (работает только для t.me/username, см. data-telegram-user).
+      var user = form.getAttribute('data-telegram-user');
+      var link = user ? 'https://t.me/' + user.replace(/^@/, '') + '?text=' + encodeURIComponent(text) : form.getAttribute('data-telegram');
+      var copied = navigator.clipboard ? navigator.clipboard.writeText(text).then(function () { return true; }, function () { return false; }) : Promise.resolve(false);
+      window.open(link, '_blank', 'noopener');
+      copied.then(function (ok) {
+        say('Открываем Telegram. ' + (user ? 'Заявка уже в поле сообщения — нажмите «Отправить». ' : (ok ? 'Текст заявки скопирован — вставьте его в чат и отправьте. ' : 'Напишите нам имя, телефон и автомобиль. ')) +
+            'Или просто позвоните: <a href="tel:+78129092626">+7 (812) 909-26-26</a>.', 'ok');
+      });
     }
   });
 })();

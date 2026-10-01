@@ -16,6 +16,7 @@
   --text: #f5f7fa;
   --muted: #a3adba;
   --blue: #176dff;
+  --blue-btn: #1565e8; /* заливка кнопок: белый текст ≥ 5:1 */
   --blue-soft: #4a97ff;
   --max: 1440px;
   --pad: clamp(20px, 3.2vw, 48px);
@@ -50,7 +51,9 @@ button { font: inherit; color: inherit; }
   border-bottom: 1px solid transparent; transition: background .3s, border-color .3s;
 }
 .header.scrolled { background: rgba(4, 6, 9, .92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-color: var(--line); }
-.brand { width: 96px; flex: none; }
+.brand { display: flex; align-items: center; gap: 12px; flex: none; }
+.brand img { width: 72px; height: auto; }
+.brand-name { font-weight: 800; font-size: 20px; letter-spacing: .06em; }
 .nav { display: flex; gap: clamp(18px, 2.2vw, 34px); margin: auto; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .02em; }
 .nav a { position: relative; padding: 6px 0; }
 .nav a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -2px; height: 2px; background: var(--blue); transition: right .3s; }
@@ -74,8 +77,8 @@ button { font: inherit; color: inherit; }
 }
 .btn:hover { transform: translateY(-2px); border-color: #fff; }
 .btn em { font-style: normal; }
-.btn-primary { background: linear-gradient(135deg, #1779ff, #1456db); border-color: #1779ff; }
-.btn-primary:hover { background: linear-gradient(135deg, #3a8cff, #1a62ee); }
+.btn-primary { background: linear-gradient(135deg, #1a6df0, #1456db); border-color: #1a6df0; }
+.btn-primary:hover { box-shadow: 0 10px 28px rgba(23, 109, 255, .38); }
 .btn-dark { background: rgba(2, 4, 7, .62); }
 .eyebrow { text-transform: uppercase; letter-spacing: .16em; font-size: 12px; font-weight: 800; color: #c3ccd7; }
 .eyebrow.blue { color: var(--blue-soft); }
@@ -83,6 +86,8 @@ button { font: inherit; color: inherit; }
 .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 40px; }
 .section h2 { font-size: clamp(30px, 3.2vw, 52px); line-height: 1.06; text-transform: uppercase; letter-spacing: -.02em; margin-top: 10px; }
 .hint { color: var(--muted); font-size: 13px; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+a[href^="tel:"] { white-space: nowrap; }
 
 /* 5. Hero и преимущества --------------------------------------------------- */
 .hero { position: relative; min-height: 720px; height: 100vh; max-height: 1000px; display: flex; align-items: center; overflow: hidden; }
@@ -142,12 +147,17 @@ button { font: inherit; color: inherit; }
 .lightbox { padding: 0; border: 0; background: transparent; max-width: 96vw; max-height: 94vh; overflow: visible; color: #fff; }
 .lightbox::backdrop { background: rgba(0, 0, 0, .88); }
 .lightbox img { max-width: 96vw; max-height: 90vh; width: auto; height: auto; margin: auto; }
-.lb-close { position: absolute; top: -8px; right: -8px; width: 44px; height: 44px; font-size: 28px; line-height: 1; background: #05070a; border: 1px solid #48515e; cursor: pointer; z-index: 2; }
+.lb-nav { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; font-size: 24px; background: rgba(5, 7, 10, .8); border: 1px solid #48515e; cursor: pointer; z-index: 2; }
+.lb-prev { left: 16px; }
+.lb-next { right: 16px; }
+.lb-nav:hover, .lb-close:hover { border-color: #fff; }
+.lb-count { position: fixed; left: 0; right: 0; bottom: 14px; text-align: center; font-size: 13px; color: #c3ccd7; margin: 0; }
+.lb-close { position: fixed; top: 16px; right: 16px; width: 44px; height: 44px; font-size: 28px; line-height: 1; background: #05070a; border: 1px solid #48515e; cursor: pointer; z-index: 2; }
 
 /* 9. О нас ----------------------------------------------------------------- */
 .about { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(32px, 5vw, 70px); align-items: center; border-top: 1px solid var(--line); }
 .about-copy > p:not(.eyebrow) { color: var(--muted); line-height: 1.8; max-width: 650px; margin-top: 22px; }
-.about-photo img { width: 100%; height: 520px; object-fit: cover; border: 1px solid var(--line); }
+.about-photo img { width: 100%; height: 520px; object-fit: cover; object-position: 60% center; border: 1px solid var(--line); }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
 .stats div { border-left: 2px solid var(--blue); padding-left: 16px; }
 .stats strong { display: block; font-size: 26px; }
@@ -180,6 +190,7 @@ button { font: inherit; color: inherit; }
 .booking input.invalid { border-color: #ff5a5f; }
 .booking label.check { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
 .booking label.check span { text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 14px; color: var(--muted); line-height: 1.45; }
+.booking label.check a { color: #fff; border-bottom: 1px solid var(--blue); }
 .booking label.check input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--blue); flex: none; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .form-status { min-height: 1.5em; font-size: 14px; color: var(--muted); }
@@ -194,12 +205,14 @@ button { font: inherit; color: inherit; }
 .contact-main p, .contact-main address { color: var(--muted); font-style: normal; line-height: 1.6; }
 .contact-main > a:not(.btn) { font-size: 20px; font-weight: 700; }
 .contact-main .hours { color: #fff; font-weight: 600; }
-.route { margin-top: 10px; }
+.route { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; }
 .map { background: #0b0f14; min-height: 420px; }
 .map iframe { width: 100%; height: 100%; min-height: 420px; border: 0; filter: grayscale(1) invert(.9) contrast(.9); }
 footer { max-width: var(--max); margin: auto; border-top: 1px solid var(--line); min-height: 90px; display: flex; align-items: center; gap: 30px; padding: 20px var(--pad); color: var(--muted); font-size: 13px; }
 footer img { width: 90px; }
-footer a { margin-left: auto; color: #fff; }
+footer a { color: #fff; }
+.footer-link { margin-left: auto; color: var(--muted); border-bottom: 1px solid var(--line); }
+.footer-link:hover { color: #fff; }
 
 /* 13. Мобильная панель быстрой связи -------------------------------------- */
 .dock { display: none; }
@@ -213,7 +226,8 @@ footer a { margin-left: auto; color: #fff; }
 /* 14. Адаптив -------------------------------------------------------------- */
 @media (max-width: 1180px) {
   :root { --header-h: 72px; }
-  .brand { width: 76px; }
+  .brand img { width: 56px; }
+  .brand-name { font-size: 18px; }
   .phone-block small, .desktop { display: none; }
   .menu { display: grid; }
   .header-actions { margin-left: auto; gap: 16px; }
@@ -221,7 +235,7 @@ footer a { margin-left: auto; color: #fff; }
   .nav.open { display: flex; }
   .nav a { padding: 16px 0; border-bottom: 1px solid var(--line); }
   .nav a::after { display: none; }
-  .nav-cta { display: block; margin-top: 18px; padding: 16px !important; text-align: center; background: var(--blue); border: 0 !important; font-weight: 800; }
+  .nav-cta { display: block; margin-top: 18px; padding: 16px !important; text-align: center; background: var(--blue-btn); border: 0 !important; font-weight: 800; }
   .benefits { grid-template-columns: repeat(3, 1fr); }
   .benefits article:nth-child(3n) { border-right: 0; }
   .benefits article:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
@@ -271,9 +285,13 @@ footer a { margin-left: auto; color: #fff; }
   .contact-main { padding: 28px 20px; }
   .map, .map iframe { min-height: 320px; }
   footer { flex-wrap: wrap; gap: 14px 24px; }
+  .footer-link { margin-left: 0; }
+  .to-top { margin-left: auto; }
+  .lb-nav { top: auto; bottom: 14px; transform: none; }
+  .lb-count { bottom: 28px; }
   .dock { display: grid; grid-template-columns: 1fr 1fr 1.2fr; position: fixed; inset: auto 0 0 0; z-index: 60; background: rgba(5, 7, 10, .96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
   .dock a { display: grid; place-items: center; min-height: 56px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; border-right: 1px solid var(--line); }
-  .dock a.primary { background: var(--blue); border: 0; }
+  .dock a.primary { background: var(--blue-btn); border: 0; }
 }
 
 @media (max-width: 360px) {
@@ -290,3 +308,12 @@ footer a { margin-left: auto; color: #fff; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .js .fade-in { opacity: 1; transform: none; }
 }
+
+/* 16. Юридические страницы (privacy.html) ---------------------------------- */
+.legal { max-width: 860px; padding-top: calc(var(--header-h) + 56px); }
+.legal h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; text-transform: uppercase; letter-spacing: -.02em; margin: 10px 0 8px; }
+.legal .updated { color: var(--muted); font-size: 14px; margin-bottom: 34px; }
+.legal h2 { font-size: 20px; text-transform: none; letter-spacing: 0; margin: 34px 0 10px; }
+.legal p, .legal li { color: #c3cad4; line-height: 1.75; }
+.legal ul { list-style: disc; padding-left: 22px; }
+.legal a { color: #fff; border-bottom: 1px solid var(--blue); }
