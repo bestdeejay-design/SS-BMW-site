@@ -209,8 +209,7 @@ a[href^="tel:"] { white-space: nowrap; }
 .socials { display: flex; flex-wrap: wrap; gap: 10px; }
 .map { background: #0b0f14; min-height: 420px; }
 .map a { display: block; height: 100%; }
-.map img { width: 100%; height: 100%; min-height: 420px; object-fit: cover; border: 0; filter: grayscale(1) invert(.9) contrast(.9); transition: .3s; }
-.map a:hover img { filter: grayscale(.6) invert(.9) contrast(.95); }
+.map img { width: 100%; height: 100%; min-height: 420px; object-fit: cover; border: 0; filter: grayscale(1) invert(.9) contrast(.9); }
 footer { max-width: var(--max); margin: auto; border-top: 1px solid var(--line); min-height: 90px; display: flex; align-items: center; gap: 30px; padding: 20px var(--pad); color: var(--muted); font-size: 13px; }
 footer img { width: 90px; }
 footer a { color: #fff; }

@@ -149,11 +149,12 @@
       var user = form.getAttribute('data-telegram-user');
       var link = user ? 'https://t.me/' + user.replace(/^@/, '') + '?text=' + encodeURIComponent(text) : form.getAttribute('data-telegram');
       var copied = navigator.clipboard ? navigator.clipboard.writeText(text).then(function () { return true; }, function () { return false; }) : Promise.resolve(false);
+      btn.disabled = true; say('Открываем Telegram…');   // защита от двойного сабмита
       window.open(link, '_blank', 'noopener');
       copied.then(function (ok) {
         say('Открываем Telegram. ' + (user ? 'Заявка уже в поле сообщения — нажмите «Отправить». ' : (ok ? 'Текст заявки скопирован — вставьте его в чат и отправьте. ' : 'Напишите нам имя, телефон и автомобиль. ')) +
             'Или просто позвоните: <a href="tel:+78129092626">+7 (812) 909-26-26</a>.', 'ok');
-      });
+      }).then(function () { btn.disabled = false; });
     }
   });
 })();
