@@ -1,5 +1,7 @@
 # Подключение отправки заявок
 
+> **Статус (13.11.2026): РЕАЛИЗОВАНО.** Эндпоинт — `https://bots.briix.ru/ssbmw-lead` (владелец: TGBOTS-стенд, токен в `.env.ssbmw` на t-ai, вне git). CORS: OPTIONS 204, `Access-Control-Allow-Origin: https://ss-bmw.ru` (allowlist). Сквозной тест из браузера пройден 13.11.2026.
+
 Форма на сайте (`#bookingForm`) работает в двух режимах.
 
 ## Режим по умолчанию (уже работает)
@@ -24,7 +26,7 @@
 
 ```js
 // Cloudflare Worker: JSON -> Telegram
-const ORIGIN = 'https://bestdeejay-design.github.io'; // или ваш домен
+const ORIGIN = 'https://ss-bmw.ru';
 const cors = { 'Access-Control-Allow-Origin': ORIGIN, 'Access-Control-Allow-Headers': 'Content-Type' };
 
 export default {
