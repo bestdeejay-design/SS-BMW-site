@@ -31,7 +31,7 @@
   <!-- Быстрая загрузка: шрифт и главный кадр -->
   <link rel="preload" href="assets/fonts/manrope-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="assets/img/hero.webp" imagesrcset="assets/img/hero-800.webp 800w, assets/img/hero.webp 1600w" imagesizes="100vw" fetchpriority="high">
-  <link rel="stylesheet" href="css/styles.css?v=7">
+  <link rel="stylesheet" href="css/styles.css?v=8">
 
   <noscript><style>.reveal,.fade-in{opacity:1!important;transform:none!important}</style></noscript>
 
@@ -259,7 +259,7 @@
         <p>Оставьте контакты — сотрудник SS-BMW свяжется с вами для уточнения автомобиля, услуги и удобного времени.</p>
         <p class="booking-alt">Быстрее — позвонить: <a href="tel:+78129092626">+7 (812) 909-26-26</a>, написать в <a href="https://t.me/ssbmwbot" target="_blank" rel="noopener">Telegram-бот @ssbmwbot</a> или в <a href="https://vk.ru/ssbmw" target="_blank" rel="noopener">ВКонтакте</a>.</p>
       </div>
-      <form id="bookingForm" novalidate data-telegram="https://t.me/+79219092626" data-telegram-user="ssbmwbot" data-endpoint="">
+      <form id="bookingForm" novalidate data-telegram="https://t.me/+79219092626" data-telegram-user="ssbmwbot" data-endpoint="https://bots.briix.ru/ssbmw-lead">
         <label><span>Ваше имя</span><input type="text" required name="name" autocomplete="name" placeholder="Станислав"></label>
         <label><span>Телефон</span><input required name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"></label>
         <label><span>Услуга</span>
@@ -329,6 +329,6 @@
     <p class="lb-count" aria-live="polite"></p>
   </dialog>
 
-  <script src="js/main.js?v=5" defer></script>
+  <script src="js/main.js?v=6" defer></script>
 </body>
 </html>
