@@ -320,3 +320,16 @@ footer a { color: #fff; }
 .legal p, .legal li { color: #c3cad4; line-height: 1.75; }
 .legal ul { list-style: disc; padding-left: 22px; }
 .legal a { color: #fff; border-bottom: 1px solid var(--blue); }
+
+/* Блок доверия: рейтинг + отзывы */
+.trust { max-width: var(--max); margin: 0 auto; padding: 70px 3vw; border-top: 1px solid var(--line); }
+.trust-grid { display: grid; grid-template-columns: 260px repeat(3, 1fr); gap: 10px; margin-top: 30px; }
+.trust-score { border: 1px solid #2d82ff; background: #0a1017; padding: 24px; display: grid; gap: 6px; align-content: start; }
+.score-num { font-size: 44px; font-weight: 800; line-height: 1; }
+.score-stars { color: #ffb800; font-size: 18px; letter-spacing: 2px; }
+.score-sub { color: var(--muted); font-size: 12px; }
+.score-badge { margin-top: 10px; font-size: 12px; color: #ffd34d; }
+.trust-quote { margin: 0; border: 1px solid var(--line); background: #070a0e; padding: 20px; display: grid; gap: 10px; align-content: start; }
+.trust-quote figcaption { color: #5b86c9; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.trust-quote blockquote { margin: 0; color: #b0b7c1; font-size: 13px; line-height: 1.6; }
+@media(max-width:1100px){ .trust-grid { grid-template-columns: 1fr; } }
