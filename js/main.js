@@ -141,7 +141,13 @@
       btn.disabled = true; say('Отправляем…');
       fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
         .then(function (r) { if (!r.ok) throw new Error(r.status); form.reset(); say('Спасибо! Заявка отправлена — мы свяжемся с вами в ближайшее время.', 'ok'); })
-        .catch(function () { say('Не удалось отправить. Позвоните нам: <a href="tel:+78129092626">+7 (812) 909-26-26</a>', 'err'); })
+        .catch(function () {
+          // эндпоинт недоступен: даём запасной канал — Telegram-бот и телефон
+          var tg = form.getAttribute('data-telegram-user');
+          var fallback = 'Не удалось отправить автоматически. Позвоните: <a href="tel:+78129092626">+7 (812) 909-26-26</a>';
+          if (tg) fallback += '<br>или отправьте заявку в Telegram: <a href="https://t.me/' + tg.replace(/^@/, '') + '?text=' + encodeURIComponent(text) + '" target="_blank" rel="noopener">@' + tg.replace(/^@/, '') + '</a> — текст уже подставлен';
+          say(fallback, 'err');
+        })
         .then(function () { btn.disabled = false; });
     } else {
       // Режим 2 (по умолчанию): Telegram. Текст заявки копируем в буфер — ссылка t.me/+телефон
