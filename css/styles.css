@@ -333,3 +333,8 @@ footer a { color: #fff; }
 .trust-quote figcaption { color: #5b86c9; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
 .trust-quote blockquote { margin: 0; color: #b0b7c1; font-size: 13px; line-height: 1.6; }
 @media(max-width:1100px){ .trust-grid { grid-template-columns: 1fr; } }
+
+/* Таблица в статьях */
+.article .tbl { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+.article .tbl th, .article .tbl td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; color: #c6ccd4; }
+.article .tbl th { background: #0a0e13; color: #e6eaee; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
